@@ -46,12 +46,30 @@ def majority_seeker(self_hist, opp_hist):
     '''
     opp_total_moves = len(opp_hist)
     opp_defect_moves = len(list(filter(lambda x : x == choices[1], opp_hist)))
-    current_move = None
-    if opp_total_moves and opp_defect_moves / opp_total_moves >= 0.5:
-        current_move = choices[1]
+    current_move = choices[0] 
+    if not opp_total_moves:     # first move is to cooperate
+        return current_move
     else:
-        current_move = choices[0]
+        if opp_total_moves and opp_defect_moves / opp_total_moves >= 0.5:
+            current_move = choices[1]
+        else:
+            current_move = choices[0]
     return current_move
+
+# Tit-For-Tat 
+def tft(self_hist, opp_hist):
+    ''' cooperate in the first move
+        then, do whatever the other 
+        did in the previous move
+    '''
+    current_move = choices[0]
+    if not len(opp_hist):      # first move is to cooperate
+        return current_move
+    else:                      # do whatever opponent did in previous move
+        prev_move = len(opp_hist) - 2
+        current_move = opp_hist[prev_move]
+    return current_move
+
 
 # Play a game with strategies f and g, n times and report the score for each strategy
 def play_loop(n,f,g, p_hist=False):
@@ -81,7 +99,7 @@ def show_moves(play):
     moves = list(map(lambda x : 'D' if x else 'C' , play))
     return moves
 
-def play_loop_score(hist):
+def play_loop_score(hist): 
     ''' given a game history as list 'hist'
         return the total score for each player 
         based from the payoff matrix
