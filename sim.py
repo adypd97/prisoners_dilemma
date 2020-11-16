@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import random
+from functools import reduce 
 ''' Simulation of Two Person symmetric Prisoner's Dilemma Game with the following parameters
 
     R (reward for cooperation)          = 3
@@ -37,10 +38,17 @@ def play():
 
     return payoff_mat[A][B][0] # return player A's payoff
 
+n = 100
 # play One-time game n times
+def simulate_play():
+    payoff_arr_A = sorted([play() for i in range(n)])
+    return payoff_arr_A
+
 
 if __name__ == "__main__":
     # definition of the game, must hold
     assert T > R > P > S
     assert R > (S + T)/2
-    print(play())
+    payoff_arr = simulate_play()
+
+    print(len(list(filter( lambda p : p == P  , payoff_arr))))
