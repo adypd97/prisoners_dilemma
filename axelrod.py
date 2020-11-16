@@ -82,11 +82,18 @@ def alt(self_hist, opp_hist):
     else:
         return choices[1]
 
-# Play a game with strategies f and g, n times and report the score for each strategy
-def play_loop(n,f,g, p_hist=False):
-    plays_A = []      # history of all plays ('c' or 'd') by player A
-    plays_B = []      # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ B
-    game_history = [] # keeps track of all game moves by two players
+#-------------------------------------------------------------------
+
+def play_loop(n, f, g, p_hist=False):
+    ''' play a game with f and g as the strategies 
+        for player A and B respectively for n iterations.
+
+        default p_hist = False -> do you want to save
+        history of move by both players separately? 
+    '''
+    plays_A = []                   # history of all plays ('c' or 'd') by player A
+    plays_B = []                   # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ B
+    game_history = []              # keeps track of all game moves by two players
     for i in range(n):
         plays_A.append(f(plays_A, plays_B))
         plays_B.append(g(plays_B, plays_A))
@@ -102,6 +109,10 @@ def play_loop(n,f,g, p_hist=False):
                 f.write(moves_A[i] + '   |   ' + moves_B[i] + '\n')
     return score_A, score_B
 
+def nth_prob(i):
+    ''' return probability of ith interaction'''
+    return w**i
+
 def show_moves(play):
     ''' given a history of plays by
         any player return a human readable
@@ -111,15 +122,17 @@ def show_moves(play):
     return moves
 
 def play_loop_score(hist): 
-    ''' given a game history as list 'hist'
+    '''given a game history as list hist
         return the total score for each player 
-        based from the payoff matrix
+         based from the payoff matrix
     '''
-    score_A = 0
-    score_B = 0
+    score_A = 0.0
+    score_B = 0.0
+    i = 0
     for strat in hist:
-        score_A += payoff_mat[strat[0]][strat[1]][0]
-        score_B += payoff_mat[strat[0]][strat[1]][1]
+        score_A += nth_prob(i)*payoff_mat[strat[0]][strat[1]][0]
+        score_B += nth_prob(i)*payoff_mat[strat[0]][strat[1]][1]
+        i += 1
     return score_A, score_B
 
 
@@ -129,8 +142,8 @@ def main(str_1, str_2, n, show):
     g = getattr(sys.modules[__name__], str_2)
 
     score_A, score_B = play_loop(n, f, g, show)
-    print("Score for Player A : ", score_A)
-    print("Score for Player B : ", score_B)
+    print("Score for Player A : {:.3f}".format(score_A))
+    print("Score for Player B : {:.3f}".format(score_B))
 
 
 if __name__ == "__main__":

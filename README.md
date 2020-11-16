@@ -76,7 +76,7 @@ in ```moves.txt``` (for viewing later).
  > ./axelrod.py --s1=tft --s2=all_D --n=1000 --show=True
 ```
 
-### Resources 
+### Reference(s) 
 `https://www.classes.cs.uchicago.edu/archive/1998/fall/CS105/Project/node3.html`
 
 
