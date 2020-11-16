@@ -25,12 +25,12 @@ For purpose of demonstration let,
 ### Installation
 - Clone this repository into a suitable directory
 ```
-git clone https://github.com/adypd97/prisoners_dilemma.git
+ > git clone https://github.com/adypd97/prisoners_dilemma.git
 ```
 
 - change directory and make ```sim.py``` and ```axelrod.py``` into executables
 ```
-cd prisoners_dilemma/ && chmod +x {sim,axelrod}.py
+ > cd prisoners_dilemma/ && chmod +x {sim,axelrod}.py
 ```
 
 ### 1) One time Two Player Prisoner's Dilemma Game
@@ -46,6 +46,7 @@ See ```./axelrod.py```
 	- Random     (randomer)
 	- Go-by-Majority    (majority_seeker)
 	- Tit-For-Tat       (tft)
+	- Alternate between C and D (alt)
 
 - How to Use :
 ```

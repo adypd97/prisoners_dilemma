@@ -15,6 +15,7 @@ w = 0.7                          # w > (T-R)/(T-P) & (T-R)/(R-S)
 choices = [0,1]                  # 0 = Cooperate, 1 = Defect
 
 # -------------------SIMPLE STRATEGIES----------------------------
+# TODO : Refactor strategies into its own module
 
 # ALL Defect (ALL D)
 def all_D(self_hist, opp_hist):
@@ -70,6 +71,16 @@ def tft(self_hist, opp_hist):
         current_move = opp_hist[prev_move]
     return current_move
 
+#Alternating C and D
+def alt(self_hist, opp_hist):
+    ''' alternate between C and D,
+        starting with C initially
+    '''
+    n = len(self_hist)
+    if n % 2 == 0:
+        return choices[0]
+    else:
+        return choices[1]
 
 # Play a game with strategies f and g, n times and report the score for each strategy
 def play_loop(n,f,g, p_hist=False):
@@ -118,8 +129,8 @@ def main(str_1, str_2, n, show):
     g = getattr(sys.modules[__name__], str_2)
 
     score_A, score_B = play_loop(n, f, g, show)
-    print("Score for Player A : {0}", score_A)
-    print("Score for Player B : {0}", score_B)
+    print("Score for Player A : ", score_A)
+    print("Score for Player B : ", score_B)
 
 
 if __name__ == "__main__":
@@ -130,7 +141,8 @@ if __name__ == "__main__":
                             2. randomer \
                             3. trusting_fool \
                             4. majority_seeker \
-                            5. tft")
+                            5. tft \
+                            6. alt")
     parser.add_argument("--s1", default="all_D", help="enter a strategy for first (A) player \
                         See -h for all strategies avaiable", type=str)
     parser.add_argument("--s2", default="all_D", help="enter a strategy for second (B) player \
