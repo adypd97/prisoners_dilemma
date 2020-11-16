@@ -19,9 +19,11 @@ R, S, T, P = 3, 0, 5, 1   # payoffs
 payoff_mat = [ [(R,R), (S,T)],   # 0th payoff values belong to player A and 1st payoff 
                [(T,S), (P,P)] ]  # values belong to player B (other player)
 
-w = 0.7                        # w > (T-R)/(T-P) & (T-R)/(R-S)
+n = 100 # number of times one-time game is played
+#w = 0.7                        # w > (T-R)/(T-P) & (T-R)/(R-S)
 
 choices = [0,1]                # Cooperate = 0 and Defect = 1
+
 def strategy():
     ''' 
       pick a strategy at random 
@@ -38,7 +40,6 @@ def play():
 
     return payoff_mat[A][B][0] # return player A's payoff
 
-n = 100
 # play One-time game n times
 def simulate_play():
     payoff_arr_A = sorted([play() for i in range(n)])
@@ -50,5 +51,6 @@ if __name__ == "__main__":
     assert T > R > P > S
     assert R > (S + T)/2
     payoff_arr = simulate_play()
+    print("RANDOM STRATEGY PAYOFF (SORTED) FOR n = 100")
+    print(payoff_arr)
 
-    print(len(list(filter( lambda p : p == P  , payoff_arr))))
