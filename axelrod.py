@@ -17,25 +17,41 @@ choices = [0,1]                  # 0 = Cooperate, 1 = Defect
 # -------------------SIMPLE STRATEGIES----------------------------
 
 # ALL Defect (ALL D)
-def all_D():
+def all_D(self_hist, opp_hist):
     ''' no matter what,
         always DEFECT
     '''
     return choices[1]
 
 # Random choice (randomer)
-def randomer():
+def randomer(self_hist, opp_hist):
     ''' randomly select a 
         choice 
     '''
     return random.choice(choices)
 
 # Trusting Fool
-def trusting_fool():
+def trusting_fool(self_hist, opp_hist):
     ''' no matter what,
         always COOPERATE
     '''
     return choices[0]
+
+# Majority Seeker
+def majority_seeker(self_hist, opp_hist):
+    ''' cooperate on the first round,
+        in subsequent rounds, check history of
+        other player's moves, see what move
+        was in majority, pick that as current move
+    '''
+    opp_total_moves = len(opp_hist)
+    opp_defect_moves = len(list(filter(lambda x : x == choices[1], opp_hist)))
+    current_move = None
+    if opp_total_moves and opp_defect_moves / opp_total_moves >= 0.5:
+        current_move = choices[1]
+    else:
+        current_move = choices[0]
+    return current_move
 
 # Play a game with strategies f and g, n times and report the score for each strategy
 def play_loop(n,f,g, p_hist=False):
@@ -43,8 +59,8 @@ def play_loop(n,f,g, p_hist=False):
     plays_B = []      # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ B
     game_history = [] # keeps track of all game moves by two players
     for i in range(n):
-        plays_A.append(f())
-        plays_B.append(g())
+        plays_A.append(f(plays_A, plays_B))
+        plays_B.append(g(plays_B, plays_A))
         game_history.append((plays_A[i], plays_B[i]))
     score_A, score_B = play_loop_score(game_history)
     if p_hist:
