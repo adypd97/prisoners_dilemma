@@ -11,7 +11,7 @@ R, S, T, P = 3, 0, 5, 1          # payoffs
 payoff_mat = [ [(R,R), (S,T)],   # 0th payoff values belong to player A and 1st payoff 
                [(T,S), (P,P)] ]  # values belong to player B (other player)
 
-w = 0.7                          # w > (T-R)/(T-P) & (T-R)/(R-S)
+w = 0.99                          # w > (T-R)/(T-P) & (T-R)/(R-S)
 choices = [0,1]                  # 0 = Cooperate, 1 = Defect
 
 # -------------------SIMPLE STRATEGIES----------------------------
